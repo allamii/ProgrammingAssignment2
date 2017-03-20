@@ -7,19 +7,25 @@ makeCacheMatrix <- function(x = matrix()) {
 
 	##This function creates a special "matrix" object that can cache its inverse.
 
-        invMat <- NULL
-        set <- function(y) {
+	invMat <- NULL
+
+	##set the value of the vector
+	set <- function(y) {
                 x <<- y
                 invMat <<- NULL
         }
-        get <- function() x
-        setInverse <- function() invMat <<- solve(x)
-        getInverse <- function() invMat
-        list(set = set, get = get,
-             setInverse = setInverse,
-             getInverse = getInverse)
-
-
+	
+	##get the value of the vector
+	get <- function() x
+      
+	##set the value of the invere
+	setInverse <- function() invMat <<- solve(x)
+      
+	##get the value of the invere
+	getInverse <- function() invMat
+      list(set = set, get = get,
+      setInverse = setInverse,
+      getInverse = getInverse)
 }
 
 
@@ -28,13 +34,17 @@ makeCacheMatrix <- function(x = matrix()) {
 cacheSolve <- function(x, ...) {
 	## Return a matrix that is the inverse of 'x'
 
-        invMat <- x$getInverse()
-        if(!is.null(invMat)) {
-                message("getting cached data")
-                return(invMat)
-        }
-        sqMat <- x$get()
-        invMat <- solve(sqMat, ...)
-        x$setInverse(invMat)
-        invMat
+	## Gets the value of the inverse
+	invMat <- x$getInverse()
+      
+	## If it isn't null, get the data from cache
+	if(!is.null(invMat)) {
+		message("getting cached data")
+            return(invMat)
+     	}
+      ## Since it is not cached, recalculate the inverse
+	sqMat <- x$get()
+      invMat <- solve(sqMat, ...)
+      x$setInverse(invMat)
+      invMat
 }
